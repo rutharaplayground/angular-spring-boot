@@ -1,0 +1,214 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper" style="min-height: 1604px;">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>User Management</h1>
+          </div>
+          <div *ngIf="!userModal" class="col-sm-6">
+            <app-search></app-search>
+            <!-- <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Users</li>
+            </ol> -->
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    
+    <!-- /.content -->
+<section *ngIf="!userModal" class="content">
+    <!-- Default box -->
+    <div class="card card-warning">
+      <div class="card-header">
+        <h3 class="card-title">Users</h3>
+
+        <div class="card-tools">
+          <button type="button" (click)="addUser()" class="btn btn-success btn-sm">
+            <i class="fas fa-plus"></i>Add User
+          </button>
+        </div>
+      </div>
+      <div class="card-body p-0">
+        <table class="table table-striped projects">
+            <thead>
+                <tr>
+                    <th style="width: 1%">
+                        #
+                    </th>
+                    <th style="width: 20%">
+                        User ID
+                    </th>
+                    <th style="width: 30%">
+                        First Name
+                    </th>
+                    <th>
+                        Last Name
+                    </th>
+                    <th style="width: 8%" class="text-center">
+                        Status
+                    </th>
+                    <th style="width: 20%">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let tempUser of users">
+                    <td class="align-middle">#</td>
+                    <td class="align-middle">{{tempUser.loginID}}</td>
+                    <td class="align-middle">{{tempUser.firstName}}</td>
+                    <td class="align-middle">{{tempUser.lastName }}</td>
+                    <td class="align-middle">
+                      <span [ngClass]="tempUser.status == 'Active' ? 'badge-success' : 'badge-danger'" class="badge">{{tempUser.status}}</span>
+                    </td>
+                    <td class="project-actions text-right">
+                        <button type="button" class="btn btn-primary btn-sm">
+                          <i class="fas fa-folder"></i>
+                        </button>
+                        <button type="button" (click)="editUser(tempUser)" class="btn btn-info btn-sm">
+                          <i class="fa fa-pencil-alt"></i>
+                        </button>
+                        <button type="button" (click)="deleteModal(mymodal, tempUser)" class="btn btn-danger btn-sm">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                        <ng-template #mymodal let-modal>
+                          <div class="modal-header">
+                            <h4 class="modal-title" id="modal-basic-title">Delete user?</h4>
+                            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            Are you sure want to delete user?
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-dark" (click)="deleteUser(user)">Delete</button>
+                          </div>
+                        </ng-template>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+
+<!-- begin footer -->
+<div class="footer-pagination">
+    <div class="row">
+        <div class="col-md-6"></div>
+
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-9" style="padding-left: 30%">
+                
+                    <ngb-pagination [(page)]="thePageNumber"
+                                    [pageSize]="thePageSize"
+                                    [collectionSize]="theTotalElements"
+                                    [maxSize]="5"
+                                    [boundaryLinks]="true"
+                                    (pageChange)="listUsers()">
+
+                    </ngb-pagination>
+
+                </div>
+
+                <div class="col-md-3 mt-2" style="text-align: right;">
+                    <span class="mr-2">Page Size</span>
+
+                    <select (change)="updatePageSize(2)"> 
+                        <option>2</option>
+                        <option selected="true">5</option>
+                        <option>10</option>
+                        <option>20</option>
+                        <option>50</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- end footer -->
+
+  </section>
+
+  <section class="content" *ngIf="userModal">
+    <div class="row">
+      <div class="col-md-12">
+          <div class="card card-warning">
+            <div class="card-header">
+              <h3 class="card-title">User Details</h3>
+            </div>
+            
+            <div class="card-body">
+              <form id="userForm" name="userForm" #userForm="ngForm">
+                <div class="row">
+                  <div class="col-sm-6">
+                    
+                    <div class="form-group">
+                      <label>User Organization</label>
+                      <input type="text" name="userOrganization" [(ngModel)]="user.userOrganization" #userOrganization="ngModel" class="form-control" placeholder="Enter Organization">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    
+                    <div class="form-group">
+                      <label>Employee Type</label>
+                      <select [(ngModel)]="user.employeeType" name="employeeType" #employeeType="ngModel" class="form-control">
+                        <option>Internal</option>
+                        <option>External</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                   
+                    <div class="form-group">
+                      <label>First Name</label>
+                      <input type="text" name="firstName" [(ngModel)]="user.firstName" #firstName="ngModel"  class="form-control" placeholder="Enter First Name">
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label>Last Name</label>
+                      <input type="text" name="lastName" [(ngModel)]="user.lastName" #lastName="ngModel"  class="form-control" placeholder="Enter Last Name">
+                    </div>
+                  </div>
+                </div>
+
+                  <div class="row">
+
+
+                </div>
+
+
+              </form>
+            </div>
+           
+          </div>
+        
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <a href="#" class="btn btn-secondary">Cancel</a>
+        <input [disabled]="!userForm.valid" type="button" class="btn btn-success"
+        (click)="saveOrEdit(user)" value="Save" class="btn btn-success float-right">
+      </div>
+    </div>
+
+    
+
+  </section>
+
+</div>

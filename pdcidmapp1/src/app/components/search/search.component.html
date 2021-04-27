@@ -1,0 +1,10 @@
+<div class="input-group input-group-sm">
+    <input class="form-control form-control-navbar" #myInput type="text" placeholder="Search for users ..." (keyup.enter)="doSearch(myInput.value)" aria-label="Search">
+    <div class="input-group-append">
+    <button (click)="doSearch(myInput.value)" class="btn btn-navbar">
+        <i class="fas fa-search"></i>
+    </button>
+    </div>
+</div>
+
+      
