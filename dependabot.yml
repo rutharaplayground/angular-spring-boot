@@ -1,6 +1,4 @@
 version: 2
-name: 'Review'
-on: [pull_request]
 updates:
   - package-ecosystem: "pip"
     directory: "/"
