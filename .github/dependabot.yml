@@ -12,3 +12,7 @@ updates:
     # Add reviewers
     reviewers:
       - "skruthara/devteam"
+  - package-ecosystem: "cran"
+    directory: "/"
+    schedule:
+      interval: "daily"
